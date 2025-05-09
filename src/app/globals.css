@@ -1,26 +1,151 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --primary: theme('colors.light-primary');
+    --primary-dark: theme('colors.light-primary-dark');
+    --secondary: theme('colors.light-border');
+    --accent: theme('colors.light-accent');
+    --success: theme('colors.light-success');
+    --error: theme('colors.light-error');
+    --border-radius: 12px;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --shadow-sm: theme('boxShadow.light-sm');
+    --shadow-md: theme('boxShadow.light-md');
+    --shadow-lg: theme('boxShadow.light-lg');
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.3s ease;
+    --font-sans: theme('fontFamily.sans');
+    --font-mono: theme('fontFamily.mono');
+  }
+
+  /* Mörkt tema */
+  .dark {
+    --primary: theme('colors.dark-primary');
+    --primary-dark: theme('colors.dark-primary-dark');
+    --secondary: theme('colors.dark-border');
+    --accent: theme('colors.dark-accent');
+    --success: theme('colors.dark-success');
+    --error: theme('colors.dark-error');
+    --shadow-sm: theme('boxShadow.dark-sm');
+    --shadow-md: theme('boxShadow.dark-md');
+    --shadow-lg: theme('boxShadow.dark-lg');
+  }
+
+  /* Övergångseffekter för temabyte */
+  *, *::before, *::after {
+    @apply transition-colors duration-200 ease-in-out;
+  }
+
+  /* Men vi vill inte ha övergång på allt */
+  .no-transition {
+    @apply transition-none;
+  }
+
+  body {
+    @apply font-sans antialiased text-light-text dark:text-dark-text bg-light-bg dark:bg-dark-bg;
+    letter-spacing: -0.015em;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-medium tracking-tight;
+  }
+
+  button, a {
+    @apply transition duration-150 ease-in-out;
+  }
+
+  /* Formulärelement */
+  input, select, textarea {
+    @apply bg-white/80 dark:bg-dark-surface/80 
+      border border-light-border dark:border-dark-border
+      rounded-[var(--border-radius)] 
+      px-4 py-3
+      transition-all duration-150 ease-in-out;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    @apply outline-none 
+      border-light-primary dark:border-dark-primary 
+      ring-2 ring-light-primary/20 dark:ring-dark-primary/20;
+  }
+
+  /* Knappar */
+  .btn {
+    @apply inline-flex items-center justify-center 
+      rounded-[var(--border-radius)] px-4 py-2 
+      text-sm font-medium 
+      transition-all duration-150 ease-in-out 
+      focus:outline-none focus:ring-2 focus:ring-offset-2 
+      disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply bg-light-primary dark:bg-dark-primary 
+      text-white
+      hover:bg-light-primary-dark dark:hover:bg-dark-primary-dark 
+      focus:ring-light-primary/50 dark:focus:ring-dark-primary/50;
+  }
+
+  .btn-secondary {
+    @apply bg-light-text-secondary/10 dark:bg-dark-text-secondary/10
+      text-light-text dark:text-dark-text
+      hover:bg-light-text-secondary/20 dark:hover:bg-dark-text-secondary/20
+      focus:ring-light-text-secondary/50 dark:focus:ring-dark-text-secondary/50;
+  }
+
+  .btn-outline {
+    @apply border border-light-border dark:border-dark-border
+      text-light-text dark:text-dark-text
+      hover:bg-light-text-secondary/10 dark:hover:bg-dark-text-secondary/10
+      focus:ring-light-primary/50 dark:focus:ring-dark-primary/50;
+  }
+
+  /* Kort/Panel */
+  .card {
+    @apply bg-light-surface dark:bg-dark-surface
+      border border-light-border dark:border-dark-border
+      rounded-[var(--border-radius)]
+      shadow-light-sm dark:shadow-dark-sm;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Custom scrollbar */
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    @apply hidden;
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-light-text-secondary/20 dark:bg-dark-text-secondary/20 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-light-text-secondary/30 dark:bg-dark-text-secondary/30;
+  }
 }

@@ -1,36 +1,132 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Klienthantering och Aktivitetssektion
 
-## Getting Started
+## Om projektet
 
-First, run the development server:
+En webbapplikation för att hantera klienter, schemalägga tester och få notifieringar om kommande tester.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Teknisk Stack
+
+- Next.js med App Router och TypeScript
+- Tailwind CSS för styling
+- Firebase för autentisering och datalagring
+
+## Nyligen uppdaterade funktioner
+
+### Konvertering till Realtime Database
+
+Projektet har konverterats från Firebase Firestore till Firebase Realtime Database. Detta inkluderar:
+
+1. Uppdaterad databasåtkomst i alla servicefiler
+2. Implementering av `RTDBTimestamp` för att bevara kompatibilitet med kodbasen
+3. Förbättrad filtrering av data på klientsidan
+
+## Konfiguration
+
+För att köra projektet lokalt behöver du:
+
+1. Klona repot
+2. Kör `npm install` för att installera beroenden
+3. Skapa en `.env.local`-fil med följande innehåll:
+   ```
+   NEXT_PUBLIC_FIREBASE_API_KEY=ditt-api-key
+   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=din-app.firebaseapp.com
+   NEXT_PUBLIC_FIREBASE_PROJECT_ID=ditt-project-id
+   NEXT_PUBLIC_FIREBASE_DATABASE_URL=https://ditt-project-id.firebaseio.com
+   NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=ditt-project-id.appspot.com
+   NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=ditt-sender-id
+   NEXT_PUBLIC_FIREBASE_APP_ID=ditt-app-id
+   ```
+4. Kör `npm run dev` för att starta utvecklingsservern
+
+## Datastruktur (Realtime Database)
+
+```
+{
+  "klienter": {
+    "uniqueId1": {
+      "namn": "Klientnamn",
+      "telefon": "0701234567",
+      "email": "klient@example.com",
+      "testDatum": { "seconds": 1234567890, "nanoseconds": 0 },
+      "anteckningar": "Anteckningar om klienten",
+      "skapadDatum": { "seconds": 1234567890, "nanoseconds": 0 }
+    },
+    "uniqueId2": {
+      ...
+    }
+  }
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Funktioner
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Autentisering**: Endast inloggade användare kan använda applikationen.
+- **Klienthantering**: Skapa, visa och redigera klientinformation.
+- **Testkalender**: Visa schemalagda test i en kalendervy.
+- **Notifieringar**: Systemet kontrollerar dagligen om det finns klienter med test om en vecka och skickar e-postmeddelanden.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Installation
 
-## Learn More
+1. Klona projektet:
+   ```
+   git clone [repository-url]
+   cd [projekt-katalog]
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. Installera beroenden:
+   ```
+   npm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Skapa en `.env.local` fil i projektets rot med följande innehåll:
+   ```
+   # Firebase-konfiguration
+   NEXT_PUBLIC_FIREBASE_API_KEY=din-api-nyckel
+   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=ditt-projekt.firebaseapp.com
+   NEXT_PUBLIC_FIREBASE_PROJECT_ID=ditt-projekt-id
+   NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=ditt-projekt.appspot.com
+   NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=din-sender-id
+   NEXT_PUBLIC_FIREBASE_APP_ID=din-app-id
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. Starta utvecklingsservern:
+   ```
+   npm run dev
+   ```
 
-## Deploy on Vercel
+5. Öppna [http://localhost:3000](http://localhost:3000) i din webbläsare.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Firebase-konfiguration
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Autentisering
+1. Aktivera e-post/lösenordsautentisering i Firebase Console.
+2. Skapa användare manuellt i Firebase Authentication.
+
+### Firestore-databas
+1. Skapa en Firestore-databas.
+2. Lägg till följande säkerhetsregler för att endast tillåta autentiserade användare:
+   ```
+   rules_version = '2';
+   service cloud.firestore {
+     match /databases/{database}/documents {
+       match /{document=**} {
+         allow read, write: if request.auth != null;
+       }
+     }
+   }
+   ```
+
+### Cloud Functions (för notifieringar)
+1. Konfigurera Firebase Cloud Functions för att hantera e-postnotifieringar.
+2. Exempel på Cloud Function för e-post finns i `functions/`-katalogen.
+
+## Utveckling
+
+- **Frontend**: Next.js och React används för användargränssnittet.
+- **Styling**: Tailwind CSS används för styling.
+- **Databas**: Firebase Firestore används för datalagring.
+- **Autentisering**: Firebase Authentication hanterar användarinloggning.
+
+## Licens
+
+Detta projekt är licensierat under [MIT-licensen](LICENSE).
