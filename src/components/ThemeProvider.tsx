@@ -16,18 +16,22 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>('light');
   const [isMounted, setIsMounted] = useState(false);
 
-  // Initiera temat vid första rendering
+  // Initiera temat vid första rendering på klientsidan
   useEffect(() => {
     setIsMounted(true);
     
-    // Hämta tema från localStorage eller använd systemets inställning
-    const storedTheme = localStorage.getItem('theme') as Theme | null;
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    if (storedTheme) {
-      setTheme(storedTheme);
-    } else if (prefersDark) {
-      setTheme('dark');
+    try {
+      // Hämta tema från localStorage eller använd systemets inställning
+      const storedTheme = localStorage.getItem('theme') as Theme | null;
+      const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+      
+      if (storedTheme) {
+        setTheme(storedTheme);
+      } else if (prefersDark) {
+        setTheme('dark');
+      }
+    } catch (error) {
+      console.error('Fel vid initiering av tema:', error);
     }
   }, []);
 
@@ -35,38 +39,47 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!isMounted) return;
     
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
-    const handleChange = (e: MediaQueryListEvent) => {
-      // Uppdatera endast om användaren inte har valt ett tema själv
-      if (!localStorage.getItem('theme')) {
-        setTheme(e.matches ? 'dark' : 'light');
-      }
-    };
-    
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
+    try {
+      const mediaQuery = window.matchMedia?.('(prefers-color-scheme: dark)');
+      if (!mediaQuery) return;
+      
+      const handleChange = (e: MediaQueryListEvent) => {
+        // Uppdatera endast om användaren inte har valt ett tema själv
+        if (!localStorage.getItem('theme')) {
+          setTheme(e.matches ? 'dark' : 'light');
+        }
+      };
+      
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
+    } catch (error) {
+      console.error('Fel vid lyssning på färgtema:', error);
+    }
   }, [isMounted]);
 
   // Uppdatera DOM och localStorage när temat ändras
   useEffect(() => {
     if (!isMounted) return;
     
-    localStorage.setItem('theme', theme);
-    
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-    
-    // Uppdatera även meta-taggen för mobila enheter
-    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    if (metaThemeColor) {
-      metaThemeColor.setAttribute(
-        'content', 
-        theme === 'dark' ? '#121826' : '#f8f9fa'
-      );
+    try {
+      localStorage.setItem('theme', theme);
+      
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      
+      // Uppdatera även meta-taggen för mobila enheter
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+      if (metaThemeColor) {
+        metaThemeColor.setAttribute(
+          'content', 
+          theme === 'dark' ? '#121826' : '#f8f9fa'
+        );
+      }
+    } catch (error) {
+      console.error('Fel vid uppdatering av tema:', error);
     }
   }, [theme, isMounted]);
 
@@ -74,13 +87,14 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
   };
 
-  // Endast visa children när monteringen är klar för att undvika flimmer
-  if (!isMounted) {
-    return null;
-  }
+  const contextValue = {
+    theme,
+    toggleTheme,
+    setTheme
+  };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>
+    <ThemeContext.Provider value={contextValue}>
       {children}
     </ThemeContext.Provider>
   );
