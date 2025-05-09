@@ -73,13 +73,13 @@ try {
     console.error('Firebase: Kunde inte skapa fallback-app:', secondError);
     
     // Skapa mock-objekt för att undvika app-krasch
-    // @ts-ignore - Vi bryter typsäkerheten för att undvika krasch
+    // @ts-expect-error - Vi bryter typsäkerheten för att undvika krasch
     app = {name: 'mock-app'};
-    // @ts-ignore
+    // @ts-expect-error - Mock av auth-objekt
     auth = {currentUser: null, onAuthStateChanged: () => () => {}};
-    // @ts-ignore
+    // @ts-expect-error - Mock av database-objekt
     db = {ref: () => ({})};
-    // @ts-ignore
+    // @ts-expect-error - Mock av functions-objekt
     functions = {httpsCallable: () => () => {}};
     
     console.error('Firebase: Skapade mock-objekt efter alla fel');
