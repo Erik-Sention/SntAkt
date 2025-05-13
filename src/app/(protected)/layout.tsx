@@ -43,7 +43,7 @@ export default function ProtectedLayout({
     initDb();
 
     return () => clearTimeout(timeoutId);
-  }, []);
+  }, [initAttempted]);
 
   // Om vi har ett allvarligt fel, visa fallback-komponenten
   if (dbError && dbError.includes('Timeout')) {

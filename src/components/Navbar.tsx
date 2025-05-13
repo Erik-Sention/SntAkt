@@ -2,17 +2,10 @@ import Link from 'next/link';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { usePathname } from 'next/navigation';
 import Logo from './Logo';
-import { useState, useEffect } from 'react';
 
 export default function Navbar() {
   const { user, signOut } = useAuth();
   const pathname = usePathname();
-  const [mounted, setMounted] = useState(false);
-
-  // Set mounted to true on client side
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   if (!user) return null;
 
