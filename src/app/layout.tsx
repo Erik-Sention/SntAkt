@@ -15,13 +15,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="sv" suppressHydrationWarning>
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="theme-color" content="#f8f9fa" />
-        <meta name="color-scheme" content="light" />
-      </head>
-      <body className={`${inter.className} antialiased bg-white text-gray-900`}>
+    <html lang="sv">
+      <body className={inter.className}>
         {children}
       </body>
     </html>

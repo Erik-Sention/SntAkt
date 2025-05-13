@@ -4,7 +4,6 @@ import Navbar from '@/components/Navbar';
 import AuthCheck from '@/components/AuthCheck';
 import AuthProvider from '@/components/AuthProvider';
 import NotificationChecker from '@/components/NotificationChecker';
-import FirebaseErrorFallback from '@/components/FirebaseErrorFallback';
 import { useEffect, useState } from 'react';
 import { initializeDatabase } from '@/lib/firebase/dbInitializer';
 
@@ -13,8 +12,8 @@ export default function ProtectedLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [dbInitialized, setDbInitialized] = useState(false);
   const [dbError, setDbError] = useState<string | null>(null);
-  const [initAttempted, setInitAttempted] = useState(false);
 
   // Initiera databasen när layouten laddas
   useEffect(() => {
@@ -23,45 +22,30 @@ export default function ProtectedLayout({
         console.log('Layout: Startar databasinitalisering');
         await initializeDatabase();
         console.log('Layout: Databasinitalisering slutförd');
-        setInitAttempted(true);
+        setDbInitialized(true);
       } catch (error) {
         console.error('Layout: Fel vid databasinitalisering:', error);
         setDbError('Kunde inte ansluta till databasen. Vänligen kontrollera din anslutning.');
-        setInitAttempted(true);
+        // Sätt ändå dbInitialized till true för att låta användaren fortsätta
+        setDbInitialized(true);
       }
     };
 
-    // Sätt en timeout för att markera att vi försökt initialisera även om det aldrig svarar
-    const timeoutId = setTimeout(() => {
-      if (!initAttempted) {
-        console.log('Layout: Timeout för databasinitalisering efter 5 sekunder');
-        setDbError('Timeout vid anslutning till databasen. Vänligen kontrollera din anslutning.');
-        setInitAttempted(true);
-      }
-    }, 5000);
-
     initDb();
-
-    return () => clearTimeout(timeoutId);
-  }, [initAttempted]);
-
-  // Om vi har ett allvarligt fel, visa fallback-komponenten
-  if (dbError && dbError.includes('Timeout')) {
-    return <FirebaseErrorFallback />;
-  }
+  }, []);
 
   return (
     <AuthProvider>
       <AuthCheck>
-        <div className="min-h-screen flex flex-col bg-gray-50">
+        <div className="min-h-screen flex flex-col">
           <Navbar />
-          <main className="flex-grow container mx-auto px-4 py-6 max-w-7xl">
+          <main className="flex-grow container mx-auto px-4 py-6">
             {dbError && (
-              <div className="bg-red-50 border border-red-300 text-red-700 rounded-lg px-6 py-5 mb-6 shadow-sm backdrop-blur-sm">
-                <p className="font-medium">{dbError}</p>
+              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                <p>{dbError}</p>
                 <button 
                   onClick={() => window.location.reload()} 
-                  className="mt-3 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md"
+                  className="mt-2 bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm"
                 >
                   Försök igen
                 </button>

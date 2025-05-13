@@ -58,39 +58,35 @@ export default function KalenderPage() {
     const weekDays = ['Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör', 'Sön'];
 
     return (
-      <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden">
-        <div className="flex justify-between items-center px-6 py-4 border-b border-gray-100 dark:border-gray-800">
+      <div className="bg-white rounded-lg shadow p-4">
+        <div className="flex justify-between items-center mb-4">
           <button
             onClick={prevMonth}
-            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 transition-colors"
+            className="p-2 rounded hover:bg-gray-100 transition"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-            </svg>
+            &lt; Föregående
           </button>
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+          <h2 className="text-xl font-semibold">
             {format(currentMonth, 'MMMM yyyy', { locale: sv })}
           </h2>
           <button
             onClick={nextMonth}
-            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 transition-colors"
+            className="p-2 rounded hover:bg-gray-100 transition"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-            </svg>
+            Nästa &gt;
           </button>
         </div>
 
-        <div className="grid grid-cols-7 gap-px bg-gray-100 dark:bg-gray-800">
+        <div className="grid grid-cols-7 gap-1">
           {weekDays.map(day => (
-            <div key={day} className="text-center font-medium py-3 bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400 text-xs tracking-wider">
+            <div key={day} className="text-center font-medium py-2 bg-gray-50">
               {day}
             </div>
           ))}
 
           {/* Tomma celler för dagar innan månadens start */}
           {Array.from({ length: (monthStart.getDay() === 0 ? 6 : monthStart.getDay() - 1) }).map((_, index) => (
-            <div key={`empty-start-${index}`} className="h-28 bg-white/60 dark:bg-gray-900/60"></div>
+            <div key={`empty-start-${index}`} className="h-24 border bg-gray-50"></div>
           ))}
 
           {/* Dagar i månaden */}
@@ -103,17 +99,11 @@ export default function KalenderPage() {
             return (
               <div 
                 key={day.toISOString()} 
-                className={`h-28 p-2 overflow-y-auto bg-white dark:bg-gray-900 ${
-                  isSameDay(day, new Date()) 
-                    ? 'ring-2 ring-primary ring-inset' 
-                    : ''
+                className={`h-24 border p-1 overflow-y-auto ${
+                  isSameDay(day, new Date()) ? 'bg-blue-50 border-blue-300' : ''
                 }`}
               >
-                <div className={`text-right text-sm font-medium mb-1 ${
-                  isSameDay(day, new Date())
-                    ? 'text-primary dark:text-primary'
-                    : 'text-gray-700 dark:text-gray-300'
-                }`}>
+                <div className="text-right text-sm font-medium mb-1">
                   {format(day, 'd', { locale: sv })}
                 </div>
                 
@@ -121,7 +111,7 @@ export default function KalenderPage() {
                   <Link
                     key={client.id}
                     href={`/klienter/${client.id}`}
-                    className="block p-1.5 mb-1 text-xs bg-primary/10 hover:bg-primary/20 text-primary dark:text-primary rounded-md transition-colors truncate"
+                    className="block p-1 mb-1 text-xs bg-blue-100 hover:bg-blue-200 rounded transition truncate"
                   >
                     {client.namn}
                   </Link>
@@ -132,7 +122,7 @@ export default function KalenderPage() {
 
           {/* Tomma celler för dagar efter månadens slut */}
           {Array.from({ length: (monthEnd.getDay() === 0 ? 0 : 7 - monthEnd.getDay()) }).map((_, index) => (
-            <div key={`empty-end-${index}`} className="h-28 bg-white/60 dark:bg-gray-900/60"></div>
+            <div key={`empty-end-${index}`} className="h-24 border bg-gray-50"></div>
           ))}
         </div>
       </div>
@@ -142,45 +132,37 @@ export default function KalenderPage() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-        <p className="ml-4 text-gray-600 dark:text-gray-400 font-medium">Laddar kalender...</p>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
       </div>
     );
   }
 
   return (
     <div>
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-        <h1 className="text-3xl font-semibold text-gray-900 dark:text-white tracking-tight">Testkalender</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">Testkalender</h1>
         <Link 
           href="/klienter/ny" 
-          className="px-5 py-2.5 rounded-full bg-primary hover:bg-primary-dark text-white font-medium text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-primary/30 shadow-sm"
+          className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded transition focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           Lägg till klient
         </Link>
       </div>
 
       {error && (
-        <div className="mb-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl px-6 py-5 text-red-700 dark:text-red-400 shadow-sm backdrop-blur-sm">
-          <p className="font-medium">{error}</p>
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          {error}
         </div>
       )}
 
       {renderCalendar()}
 
-      <div className="mt-8 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden">
-        <h2 className="text-lg font-semibold border-b border-gray-100 dark:border-gray-800 p-5 text-gray-900 dark:text-white">Kommande tester</h2>
+      <div className="mt-8 bg-white rounded-lg shadow">
+        <h2 className="text-lg font-semibold border-b p-4">Kommande tester</h2>
         {clients.length === 0 ? (
-          <div className="p-6 text-center">
-            <div className="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 mx-auto mb-4 flex items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-            </div>
-            <p className="text-gray-700 dark:text-gray-300 font-medium">Inga planerade tester hittades</p>
-          </div>
+          <p className="p-4 text-gray-600">Inga planerade tester hittades.</p>
         ) : (
-          <ul className="divide-y divide-gray-100 dark:divide-gray-800">
+          <ul className="divide-y">
             {clients
               .filter(client => client.testDatum && client.testDatum.toDate() >= new Date())
               .sort((a, b) => {
@@ -190,18 +172,18 @@ export default function KalenderPage() {
                 return 0;
               })
               .map(client => (
-                <li key={client.id} className="p-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                <li key={client.id} className="p-4 hover:bg-gray-50">
                   <div className="flex justify-between items-center">
                     <div>
-                      <h3 className="font-medium text-gray-900 dark:text-white">{client.namn}</h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                      <h3 className="font-medium">{client.namn}</h3>
+                      <p className="text-sm text-gray-600">
                         Test: {client.testDatum && format(client.testDatum.toDate(), 'd MMMM yyyy', { locale: sv })}
                       </p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">{client.telefon}</p>
+                      <p className="text-sm text-gray-600">{client.telefon}</p>
                     </div>
                     <Link
                       href={`/klienter/${client.id}`}
-                      className="px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 font-medium rounded-full text-sm transition-colors"
+                      className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-1 px-3 rounded text-sm transition focus:outline-none focus:ring-2 focus:ring-gray-500"
                     >
                       Redigera
                     </Link>

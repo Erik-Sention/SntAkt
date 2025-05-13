@@ -1,137 +1,26 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@layer base {
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
   :root {
-    --border-radius: 12px;
-    --font-weight-normal: 400;
-    --font-weight-medium: 500;
-    --font-weight-semibold: 600;
-    --font-weight-bold: 700;
-    --transition-fast: 0.15s ease;
-    --transition-normal: 0.3s ease;
-    --font-sans: theme('fontFamily.sans');
-    --font-mono: theme('fontFamily.mono');
-  }
-
-  /* Övergångseffekter */
-  *, *::before, *::after {
-    @apply transition-colors duration-200 ease-in-out;
-  }
-
-  /* Men vi vill inte ha övergång på allt */
-  .no-transition {
-    @apply transition-none;
-  }
-
-  body {
-    @apply font-sans antialiased text-gray-900 bg-white;
-    letter-spacing: -0.015em;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-medium tracking-tight;
-  }
-
-  button, a {
-    @apply transition duration-150 ease-in-out;
-  }
-
-  /* Formulärelement */
-  input, select, textarea {
-    @apply bg-white/80 
-      border border-gray-200
-      rounded-[var(--border-radius)] 
-      px-4 py-3
-      transition-all duration-150 ease-in-out;
-  }
-
-  input:focus, select:focus, textarea:focus {
-    @apply outline-none 
-      border-blue-500
-      ring-2 ring-blue-500/20;
-  }
-
-  /* Knappar */
-  .btn {
-    @apply inline-flex items-center justify-center 
-      rounded-[var(--border-radius)] px-4 py-2 
-      text-sm font-medium 
-      transition-all duration-150 ease-in-out 
-      focus:outline-none focus:ring-2 focus:ring-offset-2 
-      disabled:opacity-50 disabled:cursor-not-allowed;
-  }
-
-  .btn-primary {
-    @apply bg-blue-600
-      text-white
-      hover:bg-blue-700
-      focus:ring-blue-500/50;
-  }
-
-  .btn-secondary {
-    @apply bg-gray-100
-      text-gray-800
-      hover:bg-gray-200
-      focus:ring-gray-500/50;
-  }
-
-  .btn-outline {
-    @apply border border-gray-200
-      text-gray-800
-      hover:bg-gray-100
-      focus:ring-blue-500/50;
-  }
-
-  /* Kort/Panel */
-  .card {
-    @apply bg-white
-      border border-gray-200
-      rounded-[var(--border-radius)]
-      shadow-sm;
+    --background: #0a0a0a;
+    --foreground: #ededed;
   }
 }
 
-/* Custom scrollbar */
-@layer utilities {
-  .scrollbar-thin {
-    scrollbar-width: thin;
-  }
-
-  .scrollbar-none {
-    scrollbar-width: none;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar {
-    @apply w-2 h-2;
-  }
-
-  .scrollbar-none::-webkit-scrollbar {
-    @apply hidden;
-  }
-
-  ::-webkit-scrollbar {
-    @apply w-2 h-2;
-  }
-
-  ::-webkit-scrollbar-track {
-    @apply bg-transparent;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    @apply bg-gray-400/20 rounded-full;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-gray-400/30;
-  }
-}
-
-/* Prevent flickering/black screen during hydration */
-html, body {
-  opacity: 1 !important;
-  visibility: visible !important;
-  background-color: #ffffff !important;
-  color: #1a202c !important;
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
 }

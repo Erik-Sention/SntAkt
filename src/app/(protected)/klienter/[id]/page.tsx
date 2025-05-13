@@ -13,7 +13,7 @@ export default function EditClientPage({ params }: PageParams) {
   
   return (
     <div>
-      <h1 className="text-3xl font-semibold text-gray-900 dark:text-white tracking-tight mb-8">Redigera klient</h1>
+      <h1 className="text-2xl font-bold mb-6">Redigera klient</h1>
       <ClientForm clientId={id} />
     </div>
   );
