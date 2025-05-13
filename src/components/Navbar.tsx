@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { usePathname } from 'next/navigation';
 import Logo from './Logo';
-import ThemeToggle from '@/components/ThemeToggle';
 import { useState, useEffect } from 'react';
 
 export default function Navbar() {
@@ -22,7 +21,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-light-surface/80 dark:bg-dark-surface/80 backdrop-blur-md border-b border-light-border dark:border-dark-border sticky top-0 z-40">
+    <nav className="bg-light-surface/80 backdrop-blur-md border-b border-light-border sticky top-0 z-40">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <Logo />
         
@@ -31,8 +30,8 @@ export default function Navbar() {
             href="/klienter" 
             className={`px-3 py-2 rounded-full text-sm font-medium transition-colors ${
               isActive('/klienter') 
-                ? 'bg-light-primary/10 dark:bg-dark-primary/20 text-light-primary dark:text-dark-primary' 
-                : 'text-light-text-secondary dark:text-dark-text-secondary hover:text-light-text hover:dark:text-dark-text'
+                ? 'bg-light-primary/10 text-light-primary' 
+                : 'text-light-text-secondary hover:text-light-text'
             }`}
           >
             Klienter
@@ -42,18 +41,16 @@ export default function Navbar() {
             href="/kalender" 
             className={`px-3 py-2 rounded-full text-sm font-medium transition-colors ${
               isActive('/kalender') 
-                ? 'bg-light-primary/10 dark:bg-dark-primary/20 text-light-primary dark:text-dark-primary' 
-                : 'text-light-text-secondary dark:text-dark-text-secondary hover:text-light-text hover:dark:text-dark-text'
+                ? 'bg-light-primary/10 text-light-primary' 
+                : 'text-light-text-secondary hover:text-light-text'
             }`}
           >
             Kalender
           </Link>
-
-          {mounted && <ThemeToggle />}
           
           <button 
             onClick={signOut}
-            className="btn ml-3 px-4 py-2 rounded-full text-sm font-medium bg-light-error hover:bg-light-error/90 dark:bg-dark-error dark:hover:bg-dark-error/90 text-white"
+            className="btn ml-3 px-4 py-2 rounded-full text-sm font-medium bg-light-error hover:bg-light-error/90 text-white"
             aria-label="Logga ut"
           >
             Logga ut

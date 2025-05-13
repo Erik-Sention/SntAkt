@@ -53,15 +53,15 @@ export default function ProtectedLayout({
   return (
     <AuthProvider>
       <AuthCheck>
-        <div className="min-h-screen flex flex-col bg-light-bg dark:bg-dark-bg">
+        <div className="min-h-screen flex flex-col bg-light-bg">
           <Navbar />
           <main className="flex-grow container mx-auto px-4 py-6 max-w-7xl">
             {dbError && (
-              <div className="bg-light-error/10 dark:bg-dark-error/10 border border-light-error dark:border-dark-error text-light-error dark:text-dark-error rounded-lg px-6 py-5 mb-6 shadow-light-sm dark:shadow-dark-sm backdrop-blur-sm">
+              <div className="bg-light-error/10 border border-light-error text-light-error rounded-lg px-6 py-5 mb-6 shadow-light-sm backdrop-blur-sm">
                 <p className="font-medium">{dbError}</p>
                 <button 
                   onClick={() => window.location.reload()} 
-                  className="mt-3 px-4 py-2 bg-light-error hover:bg-light-error/90 dark:bg-dark-error dark:hover:bg-dark-error/90 text-white rounded-md"
+                  className="mt-3 px-4 py-2 bg-light-error hover:bg-light-error/90 text-white rounded-md"
                 >
                   Försök igen
                 </button>

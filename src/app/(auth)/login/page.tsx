@@ -31,19 +31,19 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900">
-      <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md border border-gray-200 dark:border-gray-700">
-        <h1 className="text-2xl font-bold text-center mb-6 text-blue-600 dark:text-blue-500">Klienthantering</h1>
+    <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md border border-gray-200">
+        <h1 className="text-2xl font-bold text-center mb-6 text-blue-600">Klienthantering</h1>
         
         {error && (
-          <div className="bg-red-100 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded mb-4" role="alert">
+          <div className="bg-red-100 border border-red-200 text-red-700 px-4 py-3 rounded mb-4" role="alert">
             <span className="block sm:inline">{error}</span>
           </div>
         )}
         
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label htmlFor="email" className="block text-gray-700 dark:text-gray-300 font-medium mb-1">
+            <label htmlFor="email" className="block text-gray-700 font-medium mb-1">
               E-post
             </label>
             <input
@@ -51,14 +51,14 @@ export default function LoginPage() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-white bg-white dark:bg-gray-700"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 bg-white"
               required
               placeholder="din@email.se"
             />
           </div>
           
           <div>
-            <label htmlFor="password" className="block text-gray-700 dark:text-gray-300 font-medium mb-1">
+            <label htmlFor="password" className="block text-gray-700 font-medium mb-1">
               Lösenord
             </label>
             <input
@@ -66,7 +66,7 @@ export default function LoginPage() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-white bg-white dark:bg-gray-700"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 bg-white"
               required
               placeholder="••••••••"
             />

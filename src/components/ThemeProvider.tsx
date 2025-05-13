@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
-type Theme = 'light' | 'dark';
+type Theme = 'light';
 
 type ThemeContextType = {
   theme: Theme;
@@ -23,72 +23,36 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   // Initiera temat vid första rendering på klientsidan
   useEffect(() => {
     setIsMounted(true);
-    
+    // Sätt alltid light mode
+    setTheme('light');
     try {
-      // Hämta tema från localStorage eller använd systemets inställning
-      const storedTheme = localStorage.getItem('theme') as Theme | null;
-      const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
-      
-      if (storedTheme) {
-        setTheme(storedTheme);
-      } else if (prefersDark) {
-        setTheme('dark');
-      }
+      localStorage.setItem('theme', 'light');
     } catch (error) {
       console.error('Fel vid initiering av tema:', error);
     }
   }, []);
 
-  // Lyssna på ändringar i systemets färgtema
+  // Uppdatera DOM när appen laddas
   useEffect(() => {
     if (!isMounted) return;
     
     try {
-      const mediaQuery = window.matchMedia?.('(prefers-color-scheme: dark)');
-      if (!mediaQuery) return;
+      // Ta bort dark class för säkerhets skull
+      document.documentElement.classList.remove('dark');
       
-      const handleChange = (e: MediaQueryListEvent) => {
-        // Uppdatera endast om användaren inte har valt ett tema själv
-        if (!localStorage.getItem('theme')) {
-          setTheme(e.matches ? 'dark' : 'light');
-        }
-      };
-      
-      mediaQuery.addEventListener('change', handleChange);
-      return () => mediaQuery.removeEventListener('change', handleChange);
-    } catch (error) {
-      console.error('Fel vid lyssning på färgtema:', error);
-    }
-  }, [isMounted]);
-
-  // Uppdatera DOM och localStorage när temat ändras
-  useEffect(() => {
-    if (!isMounted) return;
-    
-    try {
-      localStorage.setItem('theme', theme);
-      
-      if (theme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-      
-      // Uppdatera även meta-taggen för mobila enheter
+      // Uppdatera meta-taggen för mobila enheter
       const metaThemeColor = document.querySelector('meta[name="theme-color"]');
       if (metaThemeColor) {
-        metaThemeColor.setAttribute(
-          'content', 
-          theme === 'dark' ? '#121826' : '#f8f9fa'
-        );
+        metaThemeColor.setAttribute('content', '#f8f9fa');
       }
     } catch (error) {
       console.error('Fel vid uppdatering av tema:', error);
     }
-  }, [theme, isMounted]);
+  }, [isMounted]);
 
+  // Togglefunktion - gör egentligen ingenting i denna version
   const toggleTheme = () => {
-    setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
+    // Gör ingenting, vi håller oss till light mode
   };
 
   const contextValue = {

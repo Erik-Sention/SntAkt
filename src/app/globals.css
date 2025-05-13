@@ -149,3 +149,11 @@
     @apply bg-light-text-secondary/30 dark:bg-dark-text-secondary/30;
   }
 }
+
+/* Prevent flickering/black screen during hydration */
+html, body {
+  opacity: 1 !important;
+  visibility: visible !important;
+  background-color: #ffffff !important;
+  color: #1a202c !important;
+}
