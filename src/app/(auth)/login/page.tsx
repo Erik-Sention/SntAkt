@@ -18,7 +18,9 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
+      console.log('Försöker logga in med:', email);
       await signInWithEmailAndPassword(auth, email, password);
+      console.log('Inloggning lyckades');
       router.push('/klienter');
     } catch (err: unknown) {
       console.error('Inloggningsfel:', err);
@@ -29,19 +31,19 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-light-bg dark:bg-dark-bg">
-      <div className="bg-light-surface dark:bg-dark-surface p-8 rounded-lg shadow-light-md dark:shadow-dark-md w-full max-w-md border border-light-border dark:border-dark-border">
-        <h1 className="text-2xl font-bold text-center mb-6 text-light-primary dark:text-dark-primary">Klienthantering</h1>
+    <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900">
+      <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md border border-gray-200 dark:border-gray-700">
+        <h1 className="text-2xl font-bold text-center mb-6 text-blue-600 dark:text-blue-500">Klienthantering</h1>
         
         {error && (
-          <div className="bg-light-error/10 dark:bg-dark-error/10 border border-light-error dark:border-dark-error text-light-error dark:text-dark-error px-4 py-3 rounded relative mb-4" role="alert">
+          <div className="bg-red-100 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded mb-4" role="alert">
             <span className="block sm:inline">{error}</span>
           </div>
         )}
         
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label htmlFor="email" className="block text-light-text-secondary dark:text-dark-text-secondary font-medium mb-1">
+            <label htmlFor="email" className="block text-gray-700 dark:text-gray-300 font-medium mb-1">
               E-post
             </label>
             <input
@@ -49,14 +51,14 @@ export default function LoginPage() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-white bg-white dark:bg-gray-700"
               required
               placeholder="din@email.se"
             />
           </div>
           
           <div>
-            <label htmlFor="password" className="block text-light-text-secondary dark:text-dark-text-secondary font-medium mb-1">
+            <label htmlFor="password" className="block text-gray-700 dark:text-gray-300 font-medium mb-1">
               Lösenord
             </label>
             <input
@@ -64,7 +66,7 @@ export default function LoginPage() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-white bg-white dark:bg-gray-700"
               required
               placeholder="••••••••"
             />
@@ -73,7 +75,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className={`btn btn-primary w-full ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+            className={`w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
           >
             {loading ? 'Loggar in...' : 'Logga in'}
           </button>

@@ -1,15 +1,13 @@
 'use client';
 
-import AuthProvider from '@/components/AuthProvider';
-
 export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <AuthProvider>
+    <div className="bg-white dark:bg-gray-900">
       {children}
-    </AuthProvider>
+    </div>
   );
 } 

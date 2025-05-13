@@ -27,22 +27,38 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     console.log('AuthProvider: Startar autentiseringslyssnare');
     
-    const unsubscribe = auth.onAuthStateChanged((authUser) => {
-      console.log('AuthProvider: Auth state ändrad', authUser ? 'Inloggad' : 'Utloggad');
-      
-      if (authUser) {
-        setUser(authUser);
-      } else {
-        setUser(null);
-      }
+    // Sätt en timeout för att undvika fastnad i laddningstillstånd
+    const timeoutId = setTimeout(() => {
+      console.log('AuthProvider: Auth timeout - sätter loading till false');
       setLoading(false);
-      console.log('AuthProvider: Loading state satt till false');
-    });
+    }, 5000);
+    
+    try {
+      const unsubscribe = auth.onAuthStateChanged((authUser) => {
+        console.log('AuthProvider: Auth state ändrad', authUser ? 'Inloggad' : 'Utloggad');
+        
+        clearTimeout(timeoutId);
+        
+        if (authUser) {
+          setUser(authUser);
+        } else {
+          setUser(null);
+        }
+        setLoading(false);
+        console.log('AuthProvider: Loading state satt till false');
+      });
 
-    return () => {
-      console.log('AuthProvider: Rensar autentiseringslyssnare');
-      unsubscribe();
-    };
+      return () => {
+        console.log('AuthProvider: Rensar autentiseringslyssnare');
+        clearTimeout(timeoutId);
+        unsubscribe();
+      };
+    } catch (error) {
+      console.error('AuthProvider: Fel vid autentiseringslyssnare:', error);
+      clearTimeout(timeoutId);
+      setLoading(false);
+      return () => {};
+    }
   }, []);
 
   return (

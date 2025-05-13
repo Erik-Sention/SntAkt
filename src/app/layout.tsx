@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/ThemeProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,10 +20,8 @@ export default function RootLayout({
         <meta name="theme-color" content="#f8f9fa" />
         <meta name="color-scheme" content="light dark" />
       </head>
-      <body className={`${inter.className} antialiased bg-light-bg text-light-text dark:bg-dark-bg dark:text-dark-text`}>
-        <ThemeProvider>
-          {children}
-        </ThemeProvider>
+      <body className={`${inter.className} antialiased bg-white text-gray-900 dark:bg-gray-900 dark:text-white`}>
+        {children}
       </body>
     </html>
   );
