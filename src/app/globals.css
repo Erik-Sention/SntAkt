@@ -4,40 +4,18 @@
 
 @layer base {
   :root {
-    --primary: theme('colors.light-primary');
-    --primary-dark: theme('colors.light-primary-dark');
-    --secondary: theme('colors.light-border');
-    --accent: theme('colors.light-accent');
-    --success: theme('colors.light-success');
-    --error: theme('colors.light-error');
     --border-radius: 12px;
     --font-weight-normal: 400;
     --font-weight-medium: 500;
     --font-weight-semibold: 600;
     --font-weight-bold: 700;
-    --shadow-sm: theme('boxShadow.light-sm');
-    --shadow-md: theme('boxShadow.light-md');
-    --shadow-lg: theme('boxShadow.light-lg');
     --transition-fast: 0.15s ease;
     --transition-normal: 0.3s ease;
     --font-sans: theme('fontFamily.sans');
     --font-mono: theme('fontFamily.mono');
   }
 
-  /* Mörkt tema */
-  .dark {
-    --primary: theme('colors.dark-primary');
-    --primary-dark: theme('colors.dark-primary-dark');
-    --secondary: theme('colors.dark-border');
-    --accent: theme('colors.dark-accent');
-    --success: theme('colors.dark-success');
-    --error: theme('colors.dark-error');
-    --shadow-sm: theme('boxShadow.dark-sm');
-    --shadow-md: theme('boxShadow.dark-md');
-    --shadow-lg: theme('boxShadow.dark-lg');
-  }
-
-  /* Övergångseffekter för temabyte */
+  /* Övergångseffekter */
   *, *::before, *::after {
     @apply transition-colors duration-200 ease-in-out;
   }
@@ -48,7 +26,7 @@
   }
 
   body {
-    @apply font-sans antialiased text-light-text dark:text-dark-text bg-light-bg dark:bg-dark-bg;
+    @apply font-sans antialiased text-gray-900 bg-white;
     letter-spacing: -0.015em;
   }
 
@@ -62,8 +40,8 @@
 
   /* Formulärelement */
   input, select, textarea {
-    @apply bg-white/80 dark:bg-dark-surface/80 
-      border border-light-border dark:border-dark-border
+    @apply bg-white/80 
+      border border-gray-200
       rounded-[var(--border-radius)] 
       px-4 py-3
       transition-all duration-150 ease-in-out;
@@ -71,8 +49,8 @@
 
   input:focus, select:focus, textarea:focus {
     @apply outline-none 
-      border-light-primary dark:border-dark-primary 
-      ring-2 ring-light-primary/20 dark:ring-dark-primary/20;
+      border-blue-500
+      ring-2 ring-blue-500/20;
   }
 
   /* Knappar */
@@ -86,32 +64,32 @@
   }
 
   .btn-primary {
-    @apply bg-light-primary dark:bg-dark-primary 
+    @apply bg-blue-600
       text-white
-      hover:bg-light-primary-dark dark:hover:bg-dark-primary-dark 
-      focus:ring-light-primary/50 dark:focus:ring-dark-primary/50;
+      hover:bg-blue-700
+      focus:ring-blue-500/50;
   }
 
   .btn-secondary {
-    @apply bg-light-text-secondary/10 dark:bg-dark-text-secondary/10
-      text-light-text dark:text-dark-text
-      hover:bg-light-text-secondary/20 dark:hover:bg-dark-text-secondary/20
-      focus:ring-light-text-secondary/50 dark:focus:ring-dark-text-secondary/50;
+    @apply bg-gray-100
+      text-gray-800
+      hover:bg-gray-200
+      focus:ring-gray-500/50;
   }
 
   .btn-outline {
-    @apply border border-light-border dark:border-dark-border
-      text-light-text dark:text-dark-text
-      hover:bg-light-text-secondary/10 dark:hover:bg-dark-text-secondary/10
-      focus:ring-light-primary/50 dark:focus:ring-dark-primary/50;
+    @apply border border-gray-200
+      text-gray-800
+      hover:bg-gray-100
+      focus:ring-blue-500/50;
   }
 
   /* Kort/Panel */
   .card {
-    @apply bg-light-surface dark:bg-dark-surface
-      border border-light-border dark:border-dark-border
+    @apply bg-white
+      border border-gray-200
       rounded-[var(--border-radius)]
-      shadow-light-sm dark:shadow-dark-sm;
+      shadow-sm;
   }
 }
 
@@ -142,11 +120,11 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-light-text-secondary/20 dark:bg-dark-text-secondary/20 rounded-full;
+    @apply bg-gray-400/20 rounded-full;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-light-text-secondary/30 dark:bg-dark-text-secondary/30;
+    @apply bg-gray-400/30;
   }
 }
 

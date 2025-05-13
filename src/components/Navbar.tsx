@@ -14,7 +14,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-light-surface/80 backdrop-blur-md border-b border-light-border sticky top-0 z-40">
+    <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-40">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <Logo />
         
@@ -23,8 +23,8 @@ export default function Navbar() {
             href="/klienter" 
             className={`px-3 py-2 rounded-full text-sm font-medium transition-colors ${
               isActive('/klienter') 
-                ? 'bg-light-primary/10 text-light-primary' 
-                : 'text-light-text-secondary hover:text-light-text'
+                ? 'bg-blue-50 text-blue-600' 
+                : 'text-gray-600 hover:text-gray-900'
             }`}
           >
             Klienter
@@ -34,8 +34,8 @@ export default function Navbar() {
             href="/kalender" 
             className={`px-3 py-2 rounded-full text-sm font-medium transition-colors ${
               isActive('/kalender') 
-                ? 'bg-light-primary/10 text-light-primary' 
-                : 'text-light-text-secondary hover:text-light-text'
+                ? 'bg-blue-50 text-blue-600' 
+                : 'text-gray-600 hover:text-gray-900'
             }`}
           >
             Kalender
@@ -43,7 +43,7 @@ export default function Navbar() {
           
           <button 
             onClick={signOut}
-            className="btn ml-3 px-4 py-2 rounded-full text-sm font-medium bg-light-error hover:bg-light-error/90 text-white"
+            className="ml-3 px-4 py-2 rounded-full text-sm font-medium bg-red-500 hover:bg-red-600 text-white"
             aria-label="Logga ut"
           >
             Logga ut
